@@ -90,6 +90,17 @@ shinyApp(
       )
     )
     
+    output$SinglesScorePlot <- renderPlotly({
+      fig <- plot_ly(x = 1:nrow(Scores()))
+      for (Player in Players()) {
+        fig <- add_lines(fig, y = Scores()[, Player], 
+                         name = Player,
+                         hoverinfo="text",
+                         text = paste(Player, round(Scores()[, Player]), sep = " "))
+      }
+      fig
+    })
+    
     ProbOf1Winning <- reactive({
       if (input$Player1=="") {
         Player1Score <- InitialScore
