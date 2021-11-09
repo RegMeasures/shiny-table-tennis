@@ -70,6 +70,7 @@ shinyApp(
     Players <- reactiveVal(SinglesData$Players)
     
     # Derive some further useful parameters using reactive functions
+    # Scores <- calculateSinglesScores(SinglesData$Games, SinglesData$Players)
     Scores <- reactive({
       calculateSinglesScores(SinglesGames(), Players())
     })
@@ -89,6 +90,29 @@ shinyApp(
         method =  "toLocaleDateString"
       )
     )
+    
+    output$SinglesScorePlot <- renderPlotly({
+      NGames <- nrow(Scores())
+      fig <- plot_ly(x = 1:NGames)
+      for (Player in Players()) {
+        fig <- add_lines(fig, y = Scores()[, Player], 
+                         name = Player,
+                         hoverinfo="text",
+                         text = Scores()[, 'Date'],
+                         hovertemplate = paste('<b>%{fullData.name}</b><br>',
+                                               'Date: %{text}<br>',
+                                               'Rating: %{y:.0f}<extra></extra>', sep='')
+                         )
+        # fig <- add_annotations(fig, text = Player, 
+        #                        x = nrow(Scores()), y = tail(Scores()[, Player],1), 
+        #                        ax = 50, ay = 0)
+      }
+      
+      layout(fig,
+             yaxis = list(title = 'Doubles rating'),
+             xaxis = list(title = 'Game number',
+                          range = c(max(0,NGames-50), NGames)))
+    })
     
     ProbOf1Winning <- reactive({
       if (input$Player1=="") {
