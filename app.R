@@ -22,11 +22,11 @@ shinyApp(
       type = "tabs",
       tabPanel(
         "Singles ranking", 
-        DTOutput("table"),
+        DTOutput("SinglesTable"),
         plotlyOutput("SinglesScorePlot", height = 300)
       ),
       tabPanel(
-        "Record game", 
+        "Record singles game", 
         fluidRow(
           column(
             width = 6, align="center",
@@ -59,6 +59,46 @@ shinyApp(
           h3("Previous Games"),
           DTOutput("RecentGames")
         )
+      ),
+      tabPanel(
+        "Doubles ranking"#, 
+        # DTOutput("DoublesTable"),
+        # plotlyOutput("DoublesScorePlot", height = 300)
+      ),
+      tabPanel(
+        "Record Doubles game" #, 
+        # fluidRow(
+        #   column(
+        #     width = 6, align="center",
+        #     selectInput("Player1", "Player 1", choices=as.list(c("",SinglesData$Players)))
+        #   ),
+        #   column(
+        #     width = 6, align="center",
+        #     selectInput("Player2", "Player 2", choices=as.list(c("",SinglesData$Players)))
+        #   )
+        # ),
+        # fluidRow(
+        #   align="center",
+        #   h4(textOutput("PredictedOdds"))
+        # ),
+        # fluidRow(
+        #   column(
+        #     width = 6, align="center",
+        #     numericInput("Score1", "Player 1 Score", value = 11, min = 0, max = 50)
+        #   ),
+        #   column(
+        #     width = 6, align="center",
+        #     numericInput("Score2", "Player 2 Score", value = 11, min = 0, max = 50)
+        #   )
+        # ),
+        # fluidRow(
+        #   align="center",
+        #   actionButton("EnterSinglesGame", "Submit result")
+        # ),
+        # fluidRow(
+        #   h3("Previous Games"),
+        #   DTOutput("RecentGames")
+        # )
       )
     )
   ),
@@ -80,7 +120,7 @@ shinyApp(
     })
     
     ## Create the ranking summary table
-    output$table <- renderDT(datatable(RankTable(), rownames=FALSE) %>%
+    output$SinglesTable <- renderDT(datatable(RankTable(), rownames=FALSE) %>%
                                formatRound(3, digits=0)
                              )
     
