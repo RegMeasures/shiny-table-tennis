@@ -11,8 +11,13 @@ options(shiny.sanitize.errors = TRUE)
 
 source("rankingFunctions.R")
 
-DataFile <- "SinglesResults.csv"
-SinglesData <- readSinglesData(DataFile)
+SinglesFName <- "SinglesResults.csv"
+DoublesFName <- "DoublesResults.csv"
+PlayersFName <- "Players.csv"
+
+Players <- readPlayerList(PlayersFName)
+SinglesData <- readSinglesData(SinglesFName, Players)
+DoublesData <- readDoublesData(DoublesFName, Players)
 
 shinyApp(
   ui = fluidPage(
@@ -30,11 +35,11 @@ shinyApp(
         fluidRow(
           column(
             width = 6, align="center",
-            selectInput("Player1", "Player 1", choices=as.list(c("",SinglesData$Players)))
+            selectInput("Player1", "Player 1", choices=as.list(c("",Players)))
           ),
           column(
             width = 6, align="center",
-            selectInput("Player2", "Player 2", choices=as.list(c("",SinglesData$Players)))
+            selectInput("Player2", "Player 2", choices=as.list(c("",Players)))
           )
         ),
         fluidRow(
@@ -56,7 +61,7 @@ shinyApp(
           actionButton("EnterSinglesGame", "Submit result")
         ),
         fluidRow(
-          h3("Previous Games"),
+          h3("Recently recorded games"),
           DTOutput("RecentGames")
         )
       ),
@@ -106,17 +111,22 @@ shinyApp(
   server = function(input,output,session){
     
     # Create some reactive variables to hold dynamic data
-    SinglesGames <- reactiveVal(SinglesData$Games)
-    Players <- reactiveVal(SinglesData$Players)
+    Players <- reactiveVal(Players)
+    SinglesGames <- reactiveVal(SinglesData)
+    DoublesGames <- reactiveVal(DoublesData)
     
     # Derive some further useful parameters using reactive functions
-    # Scores <- calculateSinglesScores(SinglesData$Games, SinglesData$Players)
-    Scores <- reactive({
+    # SinglesScores <- calculateSinglesScores(SinglesData, Players)
+    SinglesScores <- reactive({
       calculateSinglesScores(SinglesGames(), Players())
+    })
+    # DoublesScores <- calculateDoublesScores(DoublesData, Players)
+    DoublesScores <- reactive({
+      calculateDoublesScores(DoublesGames(), Players())
     })
     
     RankTable <- reactive({
-      SummaryTable(Scores(), SinglesGames())
+      SummaryTable(SinglesScores(), SinglesGames())
     })
     
     ## Create the ranking summary table
@@ -132,13 +142,13 @@ shinyApp(
     )
     
     output$SinglesScorePlot <- renderPlotly({
-      NGames <- nrow(Scores())
+      NGames <- nrow(SinglesScores())
       fig <- plot_ly(x = 1:NGames)
       for (Player in Players()) {
-        fig <- add_lines(fig, y = Scores()[, Player], 
+        fig <- add_lines(fig, y = SinglesScores()[, Player], 
                          name = Player,
                          hoverinfo="text",
-                         text = Scores()[, 'Date'],
+                         text = SinglesScores()[, 'Date'],
                          hovertemplate = paste('<b>%{fullData.name}</b><br>',
                                                'Date: %{text}<br>',
                                                'Rating: %{y:.0f}<extra></extra>', sep='')
@@ -159,14 +169,14 @@ shinyApp(
         Player1Score <- InitialScore
       }
       else {
-        Player1Score <- tail(Scores()[input$Player1],1)
+        Player1Score <- tail(SinglesScores()[input$Player1],1)
       }
       
       if (input$Player2=="") {
         Player2Score <- InitialScore
       }
       else {
-        Player2Score <- tail(Scores()[input$Player2],1)
+        Player2Score <- tail(SinglesScores()[input$Player2],1)
       }
       
       return(calculateOdds(Player1Score, Player2Score))

@@ -1,45 +1,108 @@
-"Date","Player_1","Player_2","Score_1","Score_2"
-2021-10-17,"Arman","Rasool",9,11
-2021-10-17,"Arman","Rasool",11,9
-2021-10-17,"Arman","Rasool",9,11
-2021-10-17,"Arman","Rasool",11,9
-2021-10-17,"Arman","Rasool",9,11
-2021-10-18,"Reg","Arman",11,9
-2021-10-18,"Reg","Arman",9,11
-2021-10-18,"Reg","Arman",11,9
-2021-10-18,"Reg","Brendon",11,9
-2021-10-18,"Reg","Brendon",11,9
-2021-10-18,"Reg","Brendon",11,9
-2021-10-18,"Brendon","Daniel",11,9
-2021-10-19,"Arman","Reg",11,9
-2021-10-20,"Reg","Jo B",11,9
-2021-10-20,"Emily","Rasool",11,9
-2021-10-20,"Jo B","Brendon",11,9
-2021-10-20,"Arman","John",9,11
-2021-10-20,"Arman","Shailesh",11,9
-2021-10-21,"Arman","Rasool",11,9
-2021-10-21,"Jo H","Phil",9,11
-2021-10-21,"Graeme","Reg",9,11
-2021-10-21,"Graeme","Reg",11,9
-2021-10-21,"Graeme","Reg",9,11
-2021-10-26,"Arman","Reg",9,11
-2021-10-26,"Arman","Reg",11,9
-2021-10-26,"Arman","Reg",9,11
-2021-10-26,"Jo B","Reg",11,9
-2021-10-26,"Jo B","Reg",9,11
-2021-10-26,"Jo B","Reg",11,9
-2021-10-26,"Jo B","Reg",9,11
-2021-10-27,"Shailesh","John",9,11
-2021-10-27,"Reg","John",9,11
-2021-10-27,"Reg","John",9,11
-2021-10-27,"Reg","Jo B",11,9
-2021-10-27,"Brendon","Daniel",11,9
-2021-10-27,"Brendon","Daniel",9,11
-2021-10-27,"Brendon","Daniel",11,9
-2021-10-28,"Jo B","Arman",11,9
-2021-10-28,"Arman","Graeme",11,9
-2021-10-28,"Arman","Graeme",11,9
-2021-10-29,"Arman","John",11,9
-2021-10-29,"Arman","Daniel",11,9
-2021-10-29,"Arman","Jo B",11,9
-2021-10-29,"Shailesh","Jo B",11,9
+Date,Player_1,Player_2,Wins_1,Wins_2
+2021-10-17,Arman,Rasool,2,3
+2021-10-18,Reg,Arman,2,1
+2021-10-18,Reg,Brendon,3,0
+2021-10-18,Brendon,Daniel,1,0
+2021-10-19,Arman,Reg,1,0
+2021-10-20,Reg,Jo B,1,0
+2021-10-20,Emily,Rasool,1,0
+2021-10-20,Jo B,Brendon,1,0
+2021-10-20,Arman,John,0,1
+2021-10-20,Arman,Shailesh,1,0
+2021-10-21,Arman,Rasool,1,0
+2021-10-21,Jo H,Phil,0,1
+2021-10-21,Graeme,Reg,1,2
+2021-10-26,Arman,Reg,1,2
+2021-10-26,Jo B,Reg,2,2
+2021-10-27,Shailesh,John,0,1
+2021-10-27,Reg,John,0,2
+2021-10-27,Reg,Jo B,1,0
+2021-10-27,Brendon,Daniel,2,1
+2021-10-28,Jo B,Arman,1,0
+2021-10-28,Arman,Graeme,2,0
+2021-10-29,Arman,John,1,0
+2021-10-29,Arman,Daniel,1,0
+2021-10-29,Arman,Jo B,1,0
+2021-10-29,Jo B,Shailesh,0,1
+2021-11-01,Arman,Jo B,2,0
+2021-11-01,Graeme,Jo B,0,2
+2021-11-02,Reg,MS,1,0
+2021-11-02,Jo B,Arman,1,0
+2021-11-02,Arman,Graeme,0,2
+2021-11-02,Arman,Rick,1,0
+2021-11-03,Arman,Reg,0,2
+2021-11-03,Reg,Jo B,1,0
+2021-11-03,Arman,John,0,2
+2021-11-08,Reg,Graeme,0,1
+2021-11-10,Rasool,Jo B,0,2
+2021-11-10,Graeme,Jo B,0,1
+2021-11-11,Arman,Reg,0,1
+2021-11-11,Jo B,Rasool,1,0
+2021-11-11,Reg,Rasool,0,1
+2021-11-15,Jo B,Jing,1,2
+2021-11-15,Arman,John,0,3
+2021-11-15,Jo H,Michelle,0,1
+2021-11-16,Reg,Rasool,2,1
+2021-11-17,Arman,Jo B,2,1
+2021-11-17,Reg,Jo B,3,2
+2021-11-19,Daniel,Graeme,1,0
+2021-11-19,Emily,Shailesh,1,0
+2021-11-19,Jo B,Rasool,2,3
+2021-11-22,Rasool,Shailesh,1,0
+2021-11-22,Rasool,Daniel,1,0
+2021-11-23,Graeme,Jo B,0,2
+2021-11-23,Graeme,Jo B,1,2
+2021-11-23,Graeme,MS,2,1
+2021-11-23,Jo B,Graeme,0,1
+2021-11-23,Graeme,Arman,0,2
+2021-11-23,Rasool,Graeme,1,0
+2021-11-23,Graeme,Arman,0,2
+2021-11-23,John,Arman,2,0
+2021-11-24,Graeme,Arman,2,0
+2021-11-24,Arman,John,0,3
+2021-11-25,Reg,Jo B,1,0
+2021-11-25,Reg,Rasool,0,1
+2021-11-29,Reg,Brendon,2,0
+2021-11-29,Arman,Jo B,3,0
+2021-11-29,Brendon,Jo B,0,2
+2021-11-29,Graeme,Rasool,1,0
+2021-11-29,Jo B,Reg,0,1
+2021-11-30,Reg,Jo B,4,0
+2021-12-01,Reg,Brendon,1,0
+2021-12-01,Reg,Jo B,1,0
+2021-12-01,Jo B,Emily,1,0
+2021-12-01,Emily,Dave,1,0
+2021-12-01,Reg,Jo B,1,0
+2021-12-02,Brendon,Colin,0,1
+2021-12-02,Colin,Jo B,1,0
+2021-12-02,Reg,Jo B,2,0
+2021-12-02,Reg,Jo B,3,0
+2021-12-03,Reg,John,0,4
+2021-12-06,Reg,Arman,0,1
+2021-12-06,Arman,Rick,0,1
+2021-12-08,Graeme,Rasool,1,0
+2021-12-08,Graeme,Arman,1,0
+2021-12-08,Arman,MS,2,0
+2021-12-08,Arman,Graeme,2,0
+2021-12-09,Arman,John,0,3
+2021-12-09,John,Jo B,1,0
+2021-12-10,Arman,Rasool,1,0
+2021-12-10,Reg,Bruce,2,0
+2021-12-10,Bruce,Arman,2,0
+2021-12-10,Reg,Arman,1,0
+2021-12-10,Arman,Jo B,1,0
+2021-12-10,Reg,Jo B,1,0
+2021-12-10,Reg,Arman,1,0
+2021-12-10,Arman,Jo B,0,1
+2021-12-10,Arman,Reg,0,1
+2021-12-10,Reg,Jo B,1,0
+2021-12-10,Arman,Jo B,1,0
+2021-12-10,Reg,Arman,1,0
+2021-12-10,Reg,Jo B,2,0
+2021-12-10,Arman,Jo B,1,0
+2021-12-10,Arman,Reg,1,0
+2021-12-10,Reg,Jo B,1,0
+2021-12-10,Arman,Jo B,0,1
+2021-12-10,Arman,Reg,1,0
+2021-12-13,John,Graeme,1,0
+2021-12-14,Arman,Reg,0,1
