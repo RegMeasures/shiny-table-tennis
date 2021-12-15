@@ -171,10 +171,10 @@ shinyApp(
         fig <- add_lines(fig, y = SinglesScores()[, Player], 
                          name = Player,
                          hoverinfo="text",
-                         text = SinglesScores()[, 'Date'],
-                         hovertemplate = paste('<b>%{fullData.name}</b><br>',
-                                               'Date: %{text}<br>',
-                                               'Rating: %{y:.0f}<extra></extra>', sep=''),
+                         text = sprintf(paste('<b>%s</b><br>',
+                                              'Date: %s<br>',
+                                              'Rating: %.0f', sep=''), 
+                                        Player, SinglesScores()[, 'Date'], SinglesScores()[, Player]),
                          visible = Visibility
                          )
         # fig <- add_annotations(fig, text = Player, 
@@ -207,10 +207,10 @@ shinyApp(
         fig <- add_lines(fig, y = DoublesScores()[, Player], 
                          name = Player,
                          hoverinfo="text",
-                         text = DoublesScores()[, 'Date'],
-                         hovertemplate = paste('<b>%{fullData.name}</b><br>',
-                                               'Date: %{text}<br>',
-                                               'Rating: %{y:.0f}<extra></extra>', sep=''),
+                         text = sprintf(paste('<b>%s</b><br>',
+                                              'Date: %s<br>',
+                                              'Rating: %.0f', sep=''), 
+                                        Player, DoublesScores()[, 'Date'], DoublesScores()[, Player]),
                          visible = Visibility
         )
         # fig <- add_annotations(fig, text = Player, 
