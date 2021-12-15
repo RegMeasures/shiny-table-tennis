@@ -1,6 +1,6 @@
 
 InitialScore <- 1500.0
-Kvalue <- 20.0
+Kvalue <- 30.0
 
 readPlayerList <- function(PlayersFName) {
   # Read in list of players
@@ -85,7 +85,7 @@ calculateSinglesScores <- function(SinglesGames, Players) {
 }
 
 
-calculateSDoublesScores <- function(DoublesGames, Players) {
+calculateDoublesScores <- function(DoublesGames, Players) {
   
   # Initialise the scoring dataframe
   DoublesScores <- data.frame(matrix(NA,    
@@ -141,7 +141,7 @@ scores2Rank <- function(Scores) {
   t(apply(-Scores[,-1], 1, rank, ties.method="min"))
 }
 
-SummaryTable <- function(SinglesScores, SinglesGames) {
+SinglesSummary <- function(SinglesScores, SinglesGames) {
   LatestRanking <- t(tail(scores2Rank(SinglesScores),1))
   Person <- rownames(LatestRanking)
   Position <- LatestRanking[,1]
@@ -164,5 +164,30 @@ SummaryTable <- function(SinglesScores, SinglesGames) {
   return(SummaryTable)
 }
 
-
+DoublesSummary <- function(DoublesScores, DoublesGames) {
+  LatestRanking <- t(tail(scores2Rank(DoublesScores),1))
+  Person <- rownames(LatestRanking)
+  Position <- LatestRanking[,1]
+  Score <- t(tail(DoublesScores,1))[-1,]
+  
+  NPlayers <- length(Person)
+  Won <- integer(NPlayers)
+  Lost <- integer(NPlayers)
+  for (PlayerNo in 1:NPlayers) {
+    Won[PlayerNo] <- sum(DoublesGames[DoublesGames$Player_1 == Person[PlayerNo], "Wins_1_2"]) +
+                     sum(DoublesGames[DoublesGames$Player_2 == Person[PlayerNo], "Wins_1_2"]) +
+                     sum(DoublesGames[DoublesGames$Player_3 == Person[PlayerNo], "Wins_3_4"]) +
+                     sum(DoublesGames[DoublesGames$Player_4 == Person[PlayerNo], "Wins_3_4"])
+    Lost[PlayerNo] <- sum(DoublesGames[DoublesGames$Player_1 == Person[PlayerNo], "Wins_3_4"]) +
+                      sum(DoublesGames[DoublesGames$Player_2 == Person[PlayerNo], "Wins_3_4"]) +
+                      sum(DoublesGames[DoublesGames$Player_3 == Person[PlayerNo], "Wins_1_2"]) +
+                      sum(DoublesGames[DoublesGames$Player_4 == Person[PlayerNo], "Wins_1_2"])
+  }                           
+  Played <- Won + Lost
+  
+  SummaryTable <- data.frame(Person, Position, Score, Played, Won, Lost)
+  
+  SummaryTable <- SummaryTable[order(SummaryTable$Position),]
+  return(SummaryTable)
+}
   
