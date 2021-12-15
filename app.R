@@ -28,7 +28,7 @@ shinyApp(
       tabPanel(
         "Singles ranking", 
         DTOutput("SinglesTable"),
-        plotlyOutput("SinglesScorePlot", height = 300)
+        plotlyOutput("SinglesScorePlot", height = 500)
       ),
       tabPanel(
         "Record singles match", 
@@ -68,7 +68,7 @@ shinyApp(
       tabPanel(
         "Doubles ranking", 
         DTOutput("DoublesTable"),
-        plotlyOutput("DoublesScorePlot", height = 300)
+        plotlyOutput("DoublesScorePlot", height = 500)
       ),
       tabPanel(
         "Record Doubles match" , 
@@ -112,6 +112,18 @@ shinyApp(
           h3("Previous Games"),
           DTOutput("RecentDoublesGames")
         )
+      ),
+      tabPanel(
+        "About this app" ,
+        h4("The ELO scoring system"),
+        "Both singles and doubles ratings are calculated using the ",
+        tags$a(href="https://en.wikipedia.org/wiki/Elo_rating_system", "Elo rating system"),
+        ". This system gives each player a rating. The difference in rating between two players",
+        "is used to calculate the expected probability of each player winning.",
+        "The difference between the expected outcome, and the actual result,",
+        "is then used to move points from one player to the other.",
+        "The bigger the difference between the actual result and the expected result",
+        "the greater the movement of points."
       )
     )
   ),
@@ -165,7 +177,7 @@ shinyApp(
       
       layout(fig,
              yaxis = list(title = 'Singles rating'),
-             xaxis = list(title = 'Game number',
+             xaxis = list(title = 'Match number',
                           range = c(max(0,NGames-50), NGames)))
     })
     
@@ -193,7 +205,7 @@ shinyApp(
       
       layout(fig,
              yaxis = list(title = 'Doubles rating'),
-             xaxis = list(title = 'Game number',
+             xaxis = list(title = 'Match number',
                           range = c(max(0,NGames-50), NGames)))
     })
     
