@@ -11,8 +11,13 @@ options(shiny.sanitize.errors = TRUE)
 
 source("rankingFunctions.R")
 
-DataFile <- "SinglesResults.csv"
-SinglesData <- readSinglesData(DataFile)
+SinglesFName <- "SinglesResults.csv"
+DoublesFName <- "DoublesResults.csv"
+PlayersFName <- "Players.csv"
+
+Players <- readPlayerList(PlayersFName)
+SinglesData <- readSinglesData(SinglesFName, Players)
+DoublesData <- readDoublesData(DoublesFName, Players)
 
 shinyApp(
   ui = fluidPage(
@@ -22,33 +27,33 @@ shinyApp(
       type = "tabs",
       tabPanel(
         "Singles ranking", 
-        DTOutput("table"),
+        DTOutput("SinglesTable"),
         plotlyOutput("SinglesScorePlot", height = 300)
       ),
       tabPanel(
-        "Record game", 
+        "Record singles match", 
         fluidRow(
           column(
             width = 6, align="center",
-            selectInput("Player1", "Player 1", choices=as.list(c("",SinglesData$Players)))
+            selectInput("S_Player1", "Player 1", choices=as.list(c("",Players)))
           ),
           column(
             width = 6, align="center",
-            selectInput("Player2", "Player 2", choices=as.list(c("",SinglesData$Players)))
+            selectInput("S_Player2", "Player 2", choices=as.list(c("",Players)))
           )
         ),
         fluidRow(
           align="center",
-          h4(textOutput("PredictedOdds"))
+          h4(textOutput("PredictedSinglesOdds"))
         ),
         fluidRow(
           column(
             width = 6, align="center",
-            numericInput("Score1", "Player 1 Score", value = 11, min = 0, max = 50)
+            numericInput("S_Wins1", "Number of games won by Player 1", value = 0, min = 0, max = 10)
           ),
           column(
             width = 6, align="center",
-            numericInput("Score2", "Player 2 Score", value = 11, min = 0, max = 50)
+            numericInput("S_Wins2", "Number of games won by Player 2", value = 0, min = 0, max = 10)
           )
         ),
         fluidRow(
@@ -56,8 +61,56 @@ shinyApp(
           actionButton("EnterSinglesGame", "Submit result")
         ),
         fluidRow(
+          h3("Recently recorded games"),
+          DTOutput("RecentSinglesGames")
+        )
+      ),
+      tabPanel(
+        "Doubles ranking", 
+        DTOutput("DoublesTable"),
+        plotlyOutput("DoublesScorePlot", height = 300)
+      ),
+      tabPanel(
+        "Record Doubles match" , 
+        fluidRow(
+          column(
+            width = 3, align="center",
+            selectInput("D_Player1", "Team 1 Player 1", choices=as.list(c("",Players)))
+          ),
+          column(
+            width = 3, align="center",
+            selectInput("D_Player2", "Team 1 Player 2", choices=as.list(c("",Players)))
+          ),
+          column(
+            width = 3, align="center",
+            selectInput("D_Player3", "Team 2 Player 1", choices=as.list(c("",Players)))
+          ),
+          column(
+            width = 3, align="center",
+            selectInput("D_Player4", "Team 2 Player 2", choices=as.list(c("",Players)))
+          )
+        ),
+        fluidRow(
+          align="center",
+          h4(textOutput("PredictedDoublesOdds"))
+        ),
+        fluidRow(
+          column(
+            width = 6, align="center",
+            numericInput("D_Wins1", "Number of games won by team 1", value = 0, min = 0, max = 10)
+          ),
+          column(
+            width = 6, align="center",
+            numericInput("D_Wins2", "Number of games won by team 2", value = 0, min = 0, max = 10)
+          )
+        ),
+        fluidRow(
+          align="center",
+          actionButton("EnterDoublesGame", "Save match")
+        ),
+        fluidRow(
           h3("Previous Games"),
-          DTOutput("RecentGames")
+          DTOutput("RecentDoublesGames")
         )
       )
     )
@@ -66,43 +119,73 @@ shinyApp(
   server = function(input,output,session){
     
     # Create some reactive variables to hold dynamic data
-    SinglesGames <- reactiveVal(SinglesData$Games)
-    Players <- reactiveVal(SinglesData$Players)
+    Players <- reactiveVal(Players)
+    SinglesGames <- reactiveVal(SinglesData)
+    DoublesGames <- reactiveVal(DoublesData)
     
     # Derive some further useful parameters using reactive functions
-    # Scores <- calculateSinglesScores(SinglesData$Games, SinglesData$Players)
-    Scores <- reactive({
+    # SinglesScores <- calculateSinglesScores(SinglesData, Players)
+    SinglesScores <- reactive({
       calculateSinglesScores(SinglesGames(), Players())
     })
-    
-    RankTable <- reactive({
-      SummaryTable(Scores(), SinglesGames())
+    # DoublesScores <- calculateDoublesScores(DoublesData, Players)
+    DoublesScores <- reactive({
+      calculateDoublesScores(DoublesGames(), Players())
     })
     
-    ## Create the ranking summary table
-    output$table <- renderDT(datatable(RankTable(), rownames=FALSE) %>%
+    SinglesRankTable <- reactive({
+      SinglesSummary(SinglesScores(), SinglesGames())
+    })
+    
+    DoublesRankTable <- reactive({
+      DoublesSummary(DoublesScores(), DoublesGames())
+    })
+    
+    # Singles ranking tab
+    output$SinglesTable <- renderDT(datatable(SinglesRankTable(), rownames=FALSE) %>%
                                formatRound(3, digits=0)
                              )
     
-    output$RecentGames <- renderDT(datatable(SinglesGames()[nrow(SinglesGames()):1,], rownames=TRUE) %>% 
-      formatDate(
-        columns = 1, 
-        method =  "toLocaleDateString"
-      )
-    )
-    
     output$SinglesScorePlot <- renderPlotly({
-      NGames <- nrow(Scores())
+      NGames <- nrow(SinglesScores())
       fig <- plot_ly(x = 1:NGames)
       for (Player in Players()) {
-        fig <- add_lines(fig, y = Scores()[, Player], 
+        fig <- add_lines(fig, y = SinglesScores()[, Player], 
                          name = Player,
                          hoverinfo="text",
-                         text = Scores()[, 'Date'],
+                         text = SinglesScores()[, 'Date'],
                          hovertemplate = paste('<b>%{fullData.name}</b><br>',
                                                'Date: %{text}<br>',
                                                'Rating: %{y:.0f}<extra></extra>', sep='')
                          )
+        # fig <- add_annotations(fig, text = Player, 
+        #                        x = nrow(Scores()), y = tail(Scores()[, Player],1), 
+        #                        ax = 50, ay = 0)
+      }
+      
+      layout(fig,
+             yaxis = list(title = 'Singles rating'),
+             xaxis = list(title = 'Game number',
+                          range = c(max(0,NGames-50), NGames)))
+    })
+    
+    # Doubles ranking tab
+    output$DoublesTable <- renderDT(datatable(DoublesRankTable(), rownames=FALSE) %>%
+                                      formatRound(3, digits=0)
+    )
+    
+    output$DoublesScorePlot <- renderPlotly({
+      NGames <- nrow(DoublesScores())
+      fig <- plot_ly(x = 1:NGames)
+      for (Player in Players()) {
+        fig <- add_lines(fig, y = DoublesScores()[, Player], 
+                         name = Player,
+                         hoverinfo="text",
+                         text = DoublesScores()[, 'Date'],
+                         hovertemplate = paste('<b>%{fullData.name}</b><br>',
+                                               'Date: %{text}<br>',
+                                               'Rating: %{y:.0f}<extra></extra>', sep='')
+        )
         # fig <- add_annotations(fig, text = Player, 
         #                        x = nrow(Scores()), y = tail(Scores()[, Player],1), 
         #                        ax = 50, ay = 0)
@@ -114,38 +197,106 @@ shinyApp(
                           range = c(max(0,NGames-50), NGames)))
     })
     
-    ProbOf1Winning <- reactive({
-      if (input$Player1=="") {
+    # Add singles game tab
+    S_ProbOf1Winning <- reactive({
+      if (input$S_Player1=="") {
         Player1Score <- InitialScore
       }
       else {
-        Player1Score <- tail(Scores()[input$Player1],1)
+        Player1Score <- tail(SinglesScores()[input$S_Player1],1)
       }
       
-      if (input$Player2=="") {
+      if (input$S_Player2=="") {
         Player2Score <- InitialScore
       }
       else {
-        Player2Score <- tail(Scores()[input$Player2],1)
+        Player2Score <- tail(SinglesScores()[input$S_Player2],1)
       }
       
       return(calculateOdds(Player1Score, Player2Score))
     })
     
-    output$PredictedOdds <- renderText({ 
-      paste("The predicted chance of player 1 winning is ", round(ProbOf1Winning()*100), "%")
+    output$PredictedSinglesOdds <- renderText({ 
+      paste("The predicted chance of player 1 winning is ", round(S_ProbOf1Winning()*100), "%")
     })
     
     observeEvent(input$EnterSinglesGame, {
       # NEED TO ADD SOME VALIDATION AND HANDLE NEW PLAYERS
-      NewGame <- list(Date = Sys.Date(),
-                      Player_1 = input$Player1,
-                      Player_2 = input$Player2,
-                      Score_1 = input$Score1,
-                      Score_2 = input$Score2)
-      SinglesGames(rbind(SinglesGames(), NewGame))
-      write.csv(SinglesGames(), DataFile, row.names = FALSE)
+      NewSinglesGame <- list(Date = Sys.Date(),
+                             Player_1 = input$S_Player1,
+                             Player_2 = input$S_Player2,
+                             Wins_1 = input$S_Wins1,
+                             Wins_2 = input$S_Wins2)
+      SinglesGames(rbind(SinglesGames(), NewSinglesGame))
+      write.csv(SinglesGames(), SinglesFName, row.names = FALSE)
     })
+    
+    output$RecentSinglesGames <- renderDT(datatable(SinglesGames()[nrow(SinglesGames()):1,], rownames=TRUE) %>% 
+                                     formatDate(
+                                       columns = 1, 
+                                       method =  "toLocaleDateString"
+                                     )
+    )
+    
+    # Add doubles game tab
+    D_ProbOf1Winning <- reactive({
+      if (input$D_Player1=="") {
+        Player1Score <- InitialScore
+      }
+      else {
+        Player1Score <- tail(DoublesScores()[input$D_Player1],1)
+      }
+      
+      if (input$D_Player2=="") {
+        Player2Score <- InitialScore
+      }
+      else {
+        Player2Score <- tail(DoublesScores()[input$D_Player2],1)
+      }
+      
+      if (input$D_Player3=="") {
+        Player3Score <- InitialScore
+      }
+      else {
+        Player3Score <- tail(DoublesScores()[input$D_Player3],1)
+      }
+      
+      if (input$D_Player4=="") {
+        Player4Score <- InitialScore
+      }
+      else {
+        Player4Score <- tail(DoublesScores()[input$D_Player4],1)
+      }
+      
+      Team1Score <- Player1Score + Player2Score
+      Team2Score <- Player3Score + Player4Score
+      
+      return(calculateOdds(Team1Score, Team2Score))
+    })
+    
+    output$PredictedDoublesOdds <- renderText({ 
+      paste("The predicted chance of team 1 winning is ", round(D_ProbOf1Winning()*100), "%")
+    })
+    
+    observeEvent(input$EnterDoublesGame, {
+      # NEED TO ADD SOME VALIDATION AND HANDLE NEW PLAYERS
+      NewDoublesGame <- list(Date = Sys.Date(),
+                      Player_1 = input$D_Player1,
+                      Player_2 = input$D_Player2,
+                      Player_3 = input$D_Player3,
+                      Player_4 = input$D_Player4,
+                      Wins_1_2 = input$D_Wins1,
+                      Wins_3_4 = input$D_Wins2)
+      DoublesGames(rbind(DoublesGames(), NewDoublesGame))
+      write.csv(DoublesGames(), DoublesFName, row.names = FALSE)
+    })
+    
+    output$RecentDoublesGames <- renderDT(datatable(DoublesGames()[nrow(DoublesGames()):1,], rownames=TRUE) %>% 
+                                     formatDate(
+                                       columns = 1, 
+                                       method =  "toLocaleDateString"
+                                     )
+    )
     
   }
 )
