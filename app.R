@@ -157,18 +157,25 @@ shinyApp(
     output$SinglesTable <- renderDT(datatable(SinglesRankTable(), rownames=FALSE) %>%
                                formatRound(3, digits=0)
                              )
-    
     output$SinglesScorePlot <- renderPlotly({
       NGames <- nrow(SinglesScores())
       fig <- plot_ly(x = 1:NGames)
-      for (Player in Players()) {
+      for (Player in SinglesRankTable()$Person) {
+        # only display lines of ranked players
+        if (!is.na(SinglesRankTable()[SinglesRankTable()$Person==Player, "Position"])) {
+          Visibility = TRUE
+        } else {
+          Visibility = "legendonly"
+        }
+        
         fig <- add_lines(fig, y = SinglesScores()[, Player], 
                          name = Player,
                          hoverinfo="text",
                          text = SinglesScores()[, 'Date'],
                          hovertemplate = paste('<b>%{fullData.name}</b><br>',
                                                'Date: %{text}<br>',
-                                               'Rating: %{y:.0f}<extra></extra>', sep='')
+                                               'Rating: %{y:.0f}<extra></extra>', sep=''),
+                         visible = Visibility
                          )
         # fig <- add_annotations(fig, text = Player, 
         #                        x = nrow(Scores()), y = tail(Scores()[, Player],1), 
@@ -189,14 +196,22 @@ shinyApp(
     output$DoublesScorePlot <- renderPlotly({
       NGames <- nrow(DoublesScores())
       fig <- plot_ly(x = 1:NGames)
-      for (Player in Players()) {
+      for (Player in DoublesRankTable()$Person) {
+        # only display lines of ranked players
+        if (!is.na(DoublesRankTable()[DoublesRankTable()$Person==Player, "Position"])) {
+          Visibility = TRUE
+        } else {
+          Visibility = "legendonly"
+        }
+        
         fig <- add_lines(fig, y = DoublesScores()[, Player], 
                          name = Player,
                          hoverinfo="text",
                          text = DoublesScores()[, 'Date'],
                          hovertemplate = paste('<b>%{fullData.name}</b><br>',
                                                'Date: %{text}<br>',
-                                               'Rating: %{y:.0f}<extra></extra>', sep='')
+                                               'Rating: %{y:.0f}<extra></extra>', sep=''),
+                         visible = Visibility
         )
         # fig <- add_annotations(fig, text = Player, 
         #                        x = nrow(Scores()), y = tail(Scores()[, Player],1), 
@@ -241,6 +256,11 @@ shinyApp(
                              Wins_2 = input$S_Wins2)
       SinglesGames(rbind(SinglesGames(), NewSinglesGame))
       write.csv(SinglesGames(), SinglesFName, row.names = FALSE)
+      
+      updateSelectInput(session, "S_Player1", selected="")
+      updateSelectInput(session, "S_Player2", selected="")
+      updateNumericInput(session, "S_Wins1", value=0)
+      updateNumericInput(session, "S_Wins2", value=0)
     })
     
     output$RecentSinglesGames <- renderDT(datatable(SinglesGames()[nrow(SinglesGames()):1,], rownames=TRUE) %>% 
@@ -301,6 +321,13 @@ shinyApp(
                       Wins_3_4 = input$D_Wins2)
       DoublesGames(rbind(DoublesGames(), NewDoublesGame))
       write.csv(DoublesGames(), DoublesFName, row.names = FALSE)
+      
+      updateSelectInput(session, "D_Player1", selected="")
+      updateSelectInput(session, "D_Player2", selected="")
+      updateSelectInput(session, "D_Player3", selected="")
+      updateSelectInput(session, "D_Player4", selected="")
+      updateNumericInput(session, "D_Wins1", value=0)
+      updateNumericInput(session, "D_Wins2", value=0)
     })
     
     output$RecentDoublesGames <- renderDT(datatable(DoublesGames()[nrow(DoublesGames()):1,], rownames=TRUE) %>% 

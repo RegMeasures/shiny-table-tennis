@@ -4,7 +4,7 @@ Kvalue <- 30.0
 
 readPlayerList <- function(PlayersFName) {
   # Read in list of players
-  Players <- read.csv(PlayersFName, header=FALSE)
+  Players <- read.csv(PlayersFName, header=FALSE, colClasses = "character")
   Players <- sort(unique(Players[,1]))
 }
 
@@ -142,37 +142,43 @@ scores2Rank <- function(Scores) {
 }
 
 SinglesSummary <- function(SinglesScores, SinglesGames) {
-  LatestRanking <- t(tail(scores2Rank(SinglesScores),1))
-  Person <- rownames(LatestRanking)
-  Position <- LatestRanking[,1]
-  Score <- t(tail(SinglesScores,1))[-1,]
+  Person <- colnames(SinglesScores)[-1]
+  Score <- as.numeric(SinglesScores[nrow(SinglesScores),-1])
   
   NPlayers <- length(Person)
   Won <- integer(NPlayers)
   Lost <- integer(NPlayers)
+  RecentPlayed <- integer(NPlayers)
   for (PlayerNo in 1:NPlayers) {
     Won[PlayerNo] <- sum(SinglesGames[SinglesGames$Player_1 == Person[PlayerNo], "Wins_1"]) +
                      sum(SinglesGames[SinglesGames$Player_2 == Person[PlayerNo], "Wins_2"])
     Lost[PlayerNo] <- sum(SinglesGames[SinglesGames$Player_1 == Person[PlayerNo], "Wins_2"]) +
                       sum(SinglesGames[SinglesGames$Player_2 == Person[PlayerNo], "Wins_1"])
+    RecentPlayed[PlayerNo] <- sum(SinglesGames[SinglesGames$Player_1 == Person[PlayerNo] & SinglesGames$Date > Sys.Date()-28, "Wins_1"]) +
+                              sum(SinglesGames[SinglesGames$Player_2 == Person[PlayerNo] & SinglesGames$Date > Sys.Date()-28, "Wins_1"]) +
+                              sum(SinglesGames[SinglesGames$Player_1 == Person[PlayerNo] & SinglesGames$Date > Sys.Date()-28, "Wins_2"]) +
+                              sum(SinglesGames[SinglesGames$Player_2 == Person[PlayerNo] & SinglesGames$Date > Sys.Date()-28, "Wins_2"])
   }                           
   Played <- Won + Lost
   
-  SummaryTable <- data.frame(Person, Position, Score, Played, Won, Lost)
+  Position <- integer(NPlayers)
+  Position[RecentPlayed>3] <- rank(-Score[RecentPlayed>3], ties.method="min")
+  Position[RecentPlayed<=3] <- NA
+  
+  SummaryTable <- data.frame(Person, Position, Score, Played, Won, Lost, RecentPlayed)
   
   SummaryTable <- SummaryTable[order(SummaryTable$Position),]
   return(SummaryTable)
 }
 
 DoublesSummary <- function(DoublesScores, DoublesGames) {
-  LatestRanking <- t(tail(scores2Rank(DoublesScores),1))
-  Person <- rownames(LatestRanking)
-  Position <- LatestRanking[,1]
-  Score <- t(tail(DoublesScores,1))[-1,]
+  Person <- colnames(DoublesScores)[-1]
+  Score <- as.numeric(DoublesScores[nrow(DoublesScores),-1])
   
   NPlayers <- length(Person)
   Won <- integer(NPlayers)
   Lost <- integer(NPlayers)
+  RecentPlayed <- integer(NPlayers)
   for (PlayerNo in 1:NPlayers) {
     Won[PlayerNo] <- sum(DoublesGames[DoublesGames$Player_1 == Person[PlayerNo], "Wins_1_2"]) +
                      sum(DoublesGames[DoublesGames$Player_2 == Person[PlayerNo], "Wins_1_2"]) +
@@ -182,10 +188,22 @@ DoublesSummary <- function(DoublesScores, DoublesGames) {
                       sum(DoublesGames[DoublesGames$Player_2 == Person[PlayerNo], "Wins_3_4"]) +
                       sum(DoublesGames[DoublesGames$Player_3 == Person[PlayerNo], "Wins_1_2"]) +
                       sum(DoublesGames[DoublesGames$Player_4 == Person[PlayerNo], "Wins_1_2"])
+    RecentPlayed[PlayerNo] <- sum(DoublesGames[DoublesGames$Player_1 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_1_2"]) +
+                              sum(DoublesGames[DoublesGames$Player_2 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_1_2"]) +
+                              sum(DoublesGames[DoublesGames$Player_3 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_1_2"]) +
+                              sum(DoublesGames[DoublesGames$Player_4 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_1_2"]) +
+                              sum(DoublesGames[DoublesGames$Player_1 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_3_4"]) +
+                              sum(DoublesGames[DoublesGames$Player_2 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_3_4"]) +
+                              sum(DoublesGames[DoublesGames$Player_3 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_3_4"]) +
+                              sum(DoublesGames[DoublesGames$Player_4 == Person[PlayerNo] & DoublesGames$Date > Sys.Date()-28, "Wins_3_4"])
   }                           
   Played <- Won + Lost
   
-  SummaryTable <- data.frame(Person, Position, Score, Played, Won, Lost)
+  Position <- integer(NPlayers)
+  Position[RecentPlayed>3] <- rank(-Score[RecentPlayed>3], ties.method="min")
+  Position[RecentPlayed<=3] <- NA
+  
+  SummaryTable <- data.frame(Person, Position, Score, Played, Won, Lost, RecentPlayed)
   
   SummaryTable <- SummaryTable[order(SummaryTable$Position),]
   return(SummaryTable)
