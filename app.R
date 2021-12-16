@@ -15,10 +15,6 @@ SinglesFName <- "SinglesResults.csv"
 DoublesFName <- "DoublesResults.csv"
 PlayersFName <- "Players.csv"
 
-Players <- readPlayerList(PlayersFName)
-SinglesData <- readSinglesData(SinglesFName, Players)
-DoublesData <- readDoublesData(DoublesFName, Players)
-
 shinyApp(
   ui = fluidPage(
     titlePanel("NIWA Christchurch table tennis ranking system"),    
@@ -35,11 +31,11 @@ shinyApp(
         fluidRow(
           column(
             width = 6, align="center",
-            selectInput("S_Player1", "Player 1", choices=as.list(c("",Players)))
+            selectInput("S_Player1", "Player 1", choices="")
           ),
           column(
             width = 6, align="center",
-            selectInput("S_Player2", "Player 2", choices=as.list(c("",Players)))
+            selectInput("S_Player2", "Player 2", choices="")
           )
         ),
         fluidRow(
@@ -75,19 +71,19 @@ shinyApp(
         fluidRow(
           column(
             width = 3, align="center",
-            selectInput("D_Player1", "Team 1 Player 1", choices=as.list(c("",Players)))
+            selectInput("D_Player1", "Team 1 Player 1", choices="")
           ),
           column(
             width = 3, align="center",
-            selectInput("D_Player2", "Team 1 Player 2", choices=as.list(c("",Players)))
+            selectInput("D_Player2", "Team 1 Player 2", choices="")
           ),
           column(
             width = 3, align="center",
-            selectInput("D_Player3", "Team 2 Player 1", choices=as.list(c("",Players)))
+            selectInput("D_Player3", "Team 2 Player 1", choices="")
           ),
           column(
             width = 3, align="center",
-            selectInput("D_Player4", "Team 2 Player 2", choices=as.list(c("",Players)))
+            selectInput("D_Player4", "Team 2 Player 2", choices="")
           )
         ),
         fluidRow(
@@ -131,9 +127,16 @@ shinyApp(
   server = function(input,output,session){
     
     # Create some reactive variables to hold dynamic data
-    Players <- reactiveVal(Players)
-    SinglesGames <- reactiveVal(SinglesData)
-    DoublesGames <- reactiveVal(DoublesData)
+    Players <- reactive(readPlayerList(PlayersFName))
+    SinglesGames <- reactive(readSinglesData(SinglesFName, Players()))
+    DoublesGames <- reactive(readDoublesData(DoublesFName, Players()))
+    
+    observe({updateSelectInput(session, "S_Player1", choices = as.list(c("",Players())))})
+    observe({updateSelectInput(session, "S_Player2", choices = as.list(c("",Players())))})
+    observe({updateSelectInput(session, "D_Player1", choices = as.list(c("",Players())))})
+    observe({updateSelectInput(session, "D_Player2", choices = as.list(c("",Players())))})
+    observe({updateSelectInput(session, "D_Player3", choices = as.list(c("",Players())))})
+    observe({updateSelectInput(session, "D_Player4", choices = as.list(c("",Players())))})
     
     # Derive some further useful parameters using reactive functions
     # SinglesScores <- calculateSinglesScores(SinglesData, Players)
