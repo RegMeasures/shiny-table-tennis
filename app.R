@@ -127,9 +127,10 @@ shinyApp(
   server = function(input,output,session){
     
     # Create some reactive variables to hold dynamic data
-    Players <- reactive(readPlayerList(PlayersFName))
-    SinglesGames <- reactive(readSinglesData(SinglesFName, Players()))
-    DoublesGames <- reactive(readDoublesData(DoublesFName, Players()))
+    InitialPlayerList <- readPlayerList(PlayersFName)
+    Players <- reactiveVal(InitialPlayerList)
+    SinglesGames <- reactiveVal(readSinglesData(SinglesFName, InitialPlayerList))
+    DoublesGames <- reactiveVal(readDoublesData(DoublesFName, InitialPlayerList))
     
     observe({updateSelectInput(session, "S_Player1", choices = as.list(c("",Players())))})
     observe({updateSelectInput(session, "S_Player2", choices = as.list(c("",Players())))})
