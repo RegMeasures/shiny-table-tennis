@@ -78,7 +78,7 @@ server = function(input,output,session){
     layout(fig,
            yaxis = list(title = 'Singles rating'),
            xaxis = list(title = 'Match number',
-                        range = c(max(0,NGames-50), NGames)))
+                        range = c(max(0,NGames-200), NGames)))
   })
   
   # Doubles ranking tab
@@ -114,7 +114,7 @@ server = function(input,output,session){
     layout(fig,
            yaxis = list(title = 'Doubles rating'),
            xaxis = list(title = 'Match number',
-                        range = c(max(0,NGames-50), NGames)))
+                        range = c(max(0,NGames-200), NGames)))
   })
   
   # Add singles game tab
