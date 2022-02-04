@@ -203,7 +203,7 @@ server = function(input,output,session){
     paste("The predicted chance of team 1 winning is ", round(D_ProbOf1Winning()*100), "%")
   })
   
-  observeEvent(input$EnterDoublesGame, {
+  observeEvent(input$RecordDoublesMatchButton, {
     # NEED TO ADD SOME VALIDATION AND HANDLE NEW PLAYERS
     NewDoublesGame <- list(Date = Sys.Date(),
                     Player_1 = input$D_Player1,
@@ -229,4 +229,19 @@ server = function(input,output,session){
                                      method =  "toLocaleDateString"
                                    )
   )
+  
+  # Click the add player button
+  observeEvent(input$AddPlayerButton, {
+    # Validate the player name
+    if (nchar(input$newPlayerName) < 2 | input$newPlayerName %in% Players()) {
+      # name not valid
+      cat(file=stderr(), "Invalid new player name: ", input$newPlayerName, "\n")
+    } else {
+      # valid name - add player
+      cat(file=stderr(), "Adding new player: ", input$newPlayerName, "\n")
+      Players(append(Players(), input$newPlayerName))
+      write(Players() , PlayersFName)
+      
+    }
+  })
 } 

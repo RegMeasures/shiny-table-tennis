@@ -8,7 +8,7 @@ packageVersion('plotly')
 options(shiny.sanitize.errors = TRUE)
 
 ui <- fluidPage(
-  titlePanel("NIWA Christchurch table tennis ranking system"),    
+  titlePanel(HTML("NIWA Christchurch table tennis <s>ranking</s> contact tracing system")),    
   
   tabsetPanel(
     type = "tabs",
@@ -93,7 +93,7 @@ ui <- fluidPage(
       ),
       fluidRow(
         align="center",
-        actionButton("EnterDoublesGame", "Save match")
+        actionButton("RecordDoublesMatchButton", "Save match")
       ),
       fluidRow(
         h3("Previous Games"),
@@ -101,16 +101,45 @@ ui <- fluidPage(
       )
     ),
     tabPanel(
-      "About this app" ,
+      "Player details",
+      fluidRow(
+        textInput("newPlayerName", "New player name"),
+        actionButton("AddPlayerButton", "Add new player")
+      )
+    ),
+    tabPanel(
+      "About" ,
       h4("The ELO scoring system"),
-      "Both singles and doubles ratings are calculated using the ",
+      "Player ratings are calculated using the ",
       tags$a(href="https://en.wikipedia.org/wiki/Elo_rating_system", "Elo rating system"),
       ". This system gives each player a rating. The difference in rating between two players",
       "is used to calculate the expected probability of each player winning.",
       "The difference between the expected outcome, and the actual result,",
       "is then used to move points from one player to the other.",
       "The bigger the difference between the actual result and the expected result",
-      "the greater the movement of points."
+      "the greater the movement of points.",
+      h4("Doubles"),
+      "Players are still assigned an individual rating for doubles, but their ",
+      "doubles rating is completely seperate from their singles rating. ",
+      "In doubles games 'team ratings' are calculated by summing the doubles ",
+      "ratings of each pair. These team ratings are used in the ELO scoring ",
+      "system to calculate the expected outcome.",
+      "Win/loss points are then assigned to both players on a team.",
+      "For example, if a high rating player and low rating player team up ",
+      "against two medium ranked players the total rating of each team will be",
+      "close, so the win probability is close to 50% for both teams. ",
+      "The players on the winning team will both have their ratings increased ",
+      "by the same amount of points, and this same amount of points will also ",
+      "be deducted from both of the players on the loosing team.",
+      h4("Rankings"),
+      "To be assigned a ranking players must have played a minimum of four ",
+      "games in the last four weeks. This threshold is applied seperately for ",
+      "doubles and singles ranking (i.e. to have a singles ranking you must ",
+      "have played four or more singles games in the last four weeks).",
+      "The purpose of this threshold is twofold, firstly it ensures the rating",
+      "of new players gets a chance to adjust prior to them recieving a ",
+      "ranking, and secondly it ensures that rankings cannot be maintained ",
+      "without regular play (i.e. if you are no.1 you can't just retire!)"
     )
   )
 )
