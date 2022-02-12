@@ -103,8 +103,15 @@ ui <- fluidPage(
     tabPanel(
       "Player details",
       fluidRow(
-        textInput("newPlayerName", "New player name"),
-        actionButton("AddPlayerButton", "Add new player")
+        align="center", 
+        br(),
+        actionButton("NewPlayerButton", "Add new player")
+      ),
+      fluidRow(
+        selectInput("Details_Player", "Show stats for:", choices="")
+      ),
+      fluidRow(
+        DTOutput("PlayerStatsTable")
       )
     ),
     tabPanel(

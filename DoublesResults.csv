@@ -170,3 +170,175 @@
 2021-12-16,"Reg","John","Graeme","Rasool",2,0
 2021-12-16,"Arman","Graeme","Reg","MS",0,2
 2021-12-16,"Reg","Rasool","Arman","Graeme",2,1
+2021-12-17,"Marty","Reg","Arman","John",0,1
+2021-12-17,"Marty","Arman","Reg","John",0,1
+2021-12-17,"Arman","Rick","Reg","John",0,2
+2021-12-17,"Reg","Arman","Rick","John",1,0
+2021-12-17,"Bruce","Rasool","Jing","Reg",1,0
+2021-12-17,"Rick","Rasool","Jing","Reg",2,1
+2021-12-17,"Reg","Jo H","Rasool","Arman",1,0
+2021-12-17,"Arman","Jo H","Reg","Rasool",0,3
+2021-12-17,"Rasool","Jo H","Marty","Bruce",0,1
+2021-12-17,"Reg","Rasool","Bruce","Arman",1,1
+2021-12-17,"Reg","Rasool","Arman","Marty",1,0
+2021-12-17,"Colin","Arman","Marty","Rasool",1,0
+2021-12-17,"Colin","Reg","Marty","Rasool",1,0
+2021-12-17,"Rasool","Colin","Reg","Marty",1,1
+2021-12-17,"Arman","Reg","Rasool","Jo B",1,0
+2021-12-20,"Arman","Rasool","Reg","MS",1,0
+2021-12-20,"Arman","Reg","Rasool","MS",1,0
+2021-12-20,"Arman","MS","Rasool","Reg",0,1
+2021-12-20,"Arman","Graeme","MS","Reg",1,0
+2021-12-20,"Arman","MS","Reg","Graeme",0,2
+2021-12-20,"Arman","Reg","Graeme","MS",1,0
+2021-12-21,"Arman","Graeme","Reg","Rasool",1,0
+2021-12-21,"MS","Reg","Rasool","Graeme",0,1
+2021-12-21,"MS","Arman","Rasool","Graeme",0,1
+2021-12-21,"Graeme","Arman","MS","Reg",1,0
+2021-12-21,"Colin","Reg","Rasool","Arman",0,1
+2021-12-21,"Graeme","Colin","Rasool","Arman",0,1
+2021-12-21,"Arman","Graeme","MS","Rasool",2,0
+2021-12-21,"Arman","Rasool","Reg","MS",1,0
+2021-12-21,"Arman","MS","Reg","Rasool",0,2
+2021-12-21,"Arman","Graeme","Reg","Rasool",0,2
+2021-12-21,"MS","Rasool","Arman","Reg",0,1
+2022-01-10,"Reg","Jo B","Graeme","Jo H",1,0
+2022-01-10,"Reg","Jo B","Graeme","Bruce",1,0
+2022-01-10,"Reg","Graeme","Rasool","Arman",1,1
+2022-01-11,"Reg","Jo B","Jo H","Arman",1,0
+2022-01-11,"Reg","Arman","Jo B","Jo H",2,0
+2022-01-13,"Arman","Rasool","Reg","MS",2,0
+2022-01-13,"Arman","MS","Reg","Rasool",1,1
+2022-01-13,"Arman","John","Reg","MS",0,1
+2022-01-13,"Arman","John","Doug","Rasool",1,0
+2022-01-13,"Jo B","Bruce","Reg","Graeme",1,0
+2022-01-13,"Rasool","Emily","Channa","Doug",1,0
+2022-01-13,"Jo B","Rasool","Rick","Reg",1,0
+2022-01-13,"Jing","Rick","Graeme","Arman",1,2
+2022-01-13,"Jing","Rasool","Arman","Reg",1,0
+2022-01-13,"Reg","Graeme","Arman","Rasool",1,0
+2022-01-14,"Arman","Rasool","John","Brendon",2,0
+2022-01-14,"Rick","John","Rasool","Brendon",1,0
+2022-01-14,"Rick","John","Emily","Jing",1,0
+2022-01-14,"Rasool","Channa","Jing","Doug",1,0
+2022-01-14,"MS","Emily","Rick","Brendon",1,0
+2022-01-14,"Arman","Graeme","John","Jing",1,0
+2022-01-14,"Arman","Graeme","Rick","John",1,1
+2022-01-17,"Reg","Rasool","Jo B","MS",2,0
+2022-01-17,"Arman","Reg","Rasool","Rick",1,0
+2022-01-17,"Arman","Graeme","John","Rick",1,2
+2022-01-17,"Rick","John","MS","Jing",1,0
+2022-01-17,"Rick","Doug","Graeme","MS",0,1
+2022-01-17,"Jo B","Arman","Reg","MS",2,0
+2022-01-17,"Jo B","Arman","Graeme","Reg",2,1
+2022-01-18,"MS","Jo B","Arman","Rasool",0,2
+2022-01-18,"John","Andy","Arman","Graeme",2,0
+2022-01-18,"Doug","Rasool","Reg","Jing",0,1
+2022-01-18,"Rasool","Jing","Doug","Reg",1,0
+2022-01-18,"Jing","Arman","Reg","Graeme",1,1
+2022-01-18,"Colin","MS","Brendon","Jo B",0,1
+2022-01-18,"Rasool","MS","Brendon","Jo B",0,1
+2022-01-18,"Rasool","Jing","Arman","Graeme",1,0
+2022-01-18,"Rasool","Reg","Arman","Graeme",1,0
+2022-01-18,"Rasool","Reg","Arman","Jing",1,0
+2022-01-18,"Rasool","Reg","Jing","Graeme",1,0
+2022-01-18,"Rasool","Shailesh","Graeme","Jing",1,0
+2022-01-19,"Graeme","Rasool","Arman","Doug",1,0
+2022-01-19,"Graeme","Rasool","Reg","MS",2,1
+2022-01-19,"Arman","MS","Graeme","Channa",1,0
+2022-01-19,"Channa","Reg","Arman","MS",1,0
+2022-01-19,"Arman","Jo B","Graeme","Reg",2,0
+2022-01-19,"Jo B","Doug","Bruce","Graeme",1,0
+2022-01-19,"Reg","Rasool","Arman","Bruce",0,1
+2022-01-19,"Bruce","Rasool","John","Graeme",0,1
+2022-01-20,"Arman","MS","Jo B","Rasool",0,1
+2022-01-20,"John","Rick","Jo B","Rasool",2,0
+2022-01-20,"John","Arman","Rasool","Reg",2,1
+2022-01-20,"Arman","Reg","John","Rick",1,0
+2022-01-20,"Rasool","Jo B","Reg","Arman",1,1
+2022-01-20,"Arman","MS","Reg","Andy",2,0
+2022-01-21,"Rasool","Shailesh","Arman","Jo B",1,1
+2022-01-24,"Reg","John","Arman","Jo B",2,0
+2022-01-24,"Arman","Reg","John","Jo B",1,1
+2022-01-24,"Shailesh","Jo B","Graeme","John",0,1
+2022-01-24,"Reg","Arman","John","Jo B",2,0
+2022-01-25,"MS","Reg","Arman","Graeme",1,0
+2022-01-25,"Reg","Andy","MS","Graeme",0,1
+2022-01-25,"Andy","Rasool","Arman","Graeme",1,0
+2022-01-25,"Reg","Rasool","Andy","Arman",0,1
+2022-01-25,"Rasool","MS","Reg","Andy",1,0
+2022-01-26,"Arman","Jo H","Reg","Shailesh",0,1
+2022-01-26,"Arman","Shailesh","Reg","Jo H",0,1
+2022-01-26,"Arman","Rasool","MS","Reg",1,0
+2022-01-26,"Andy","MS","Graeme","Rasool",0,2
+2022-01-26,"Arman","Graeme","Andy","Rasool",1,0
+2022-01-26,"Reg","Graeme","Rasool","Arman",1,0
+2022-01-26,"Arman","Jo B","Graeme","John",2,1
+2022-01-26,"Jo B","Bruce","Andy","Reg",2,0
+2022-01-26,"Jo B","Jo H","Rasool","Reg",0,2
+2022-01-26,"Reg","Bruce","Rasool","Jo H",1,0
+2022-01-26,"Arman","Bruce","Jo H","Rasool",1,0
+2022-01-26,"John","Jo H","Arman","Jo B",1,2
+2022-01-26,"John","Arman","Jo H","Jo B",1,0
+2022-01-26,"Arman","Jo B","Graeme","Doug",2,0
+2022-01-27,"Reg","Bruce","Graeme","Jo H",2,0
+2022-01-27,"Jo H","Bruce","Graeme","Reg",0,1
+2022-01-27,"Matt","Graeme","Jo H","Reg",0,1
+2022-01-27,"Reg","Rasool","Jo H","Bruce",2,0
+2022-01-27,"Graeme","Bruce","Rasool","Jo H",1,0
+2022-01-27,"Graeme","Reg","Rasool","Bruce",2,1
+2022-01-27,"Graeme","Reg","Bruce","Jo H",1,0
+2022-01-31,"Rasool","Matt","MS","Jing",1,0
+2022-01-31,"Rasool","Shailesh","Channa","Jing",2,0
+2022-01-31,"Rasool","MS","Jo B","Jing",2,1
+2022-01-31,"Brendon","Graeme","Jo B","MS",2,1
+2022-02-01,"Rasool","Jo B","MS","Brendon",2,0
+2022-02-01,"Rasool","Shailesh","Jo B","Brendon",2,0
+2022-02-01,"Jo B","MS","Channa","Matt",1,0
+2022-02-01,"Rasool","Channa","Jo B","Matt",1,0
+2022-02-02,"Rasool","Reg","Bruce","Graeme",2,1
+2022-02-02,"Arman","Reg","Bruce","Jo B",1,0
+2022-02-02,"Arman","Reg","Graeme","Jo B",0,1
+2022-02-02,"Rasool","Reg","Arman","Jo B",2,0
+2022-02-02,"Brendon","Rasool","Bruce","Jo B",2,0
+2022-02-02,"Jo B","Brendon","Rasool","Bruce",0,2
+2022-02-03,"Rasool","Jo H","Bruce","Andy",0,2
+2022-02-03,"Rasool","Jo B","Bruce","Matt",2,0
+2022-02-03,"Rasool","Matt","Bruce","Jo B",0,2
+2022-02-03,"Graeme","Reg","Arman","Jo H",1,0
+2022-02-03,"Arman","Matt","Reg","MS",0,2
+2022-02-03,"Reg","Jo B","Arman","Brendon",1,0
+2022-02-03,"Doug","Arman","Jo B","Bruce",1,0
+2022-02-03,"Arman","Jo B","Doug","Reg",1,0
+2022-02-03,"Bruce","Rasool","Arman","Jo B",2,0
+2022-02-03,"Reg","Jo B","Bruce","Rasool",0,1
+2022-02-03,"Reg","Jo B","Bruce","Rasool",0,1
+2022-02-08,"Rasool","Arman","Jo B","Andy",2,0
+2022-02-08,"Arman","Jo B","Rasool","Andy",1,0
+2022-02-08,"Rasool","Andy","Arman","Jo B",0,1
+2022-02-08,"Arman","Jo H","Rasool","Jo B",1,0
+2022-02-08,"Arman","Rasool","Jo B","Jo H",1,0
+2022-02-08,"Arman","Jo B","Jo H","Rasool",2,1
+2022-02-08,"Andy","Jing","Arman","Jo B",1,2
+2022-02-08,"Graeme","Jo B","Rick","Andy",1,1
+2022-02-08,"Jo H","MS","Rick","Andy",0,1
+2022-02-08,"Arman","Jo B","Graeme","Andy",0,2
+2022-02-09,"Arman","MS","Jo B","Jo B",2,0
+2022-02-09,"Arman","Jo B","Reg","MS",0,2
+2022-02-09,"Arman","Reg","MS","Jo B",2,0
+2022-02-09,"Arman","Reg","Rasool","Jo B",2,0
+2022-02-10,"Arman","Rasool","Bruce","Andy",1,1
+2022-02-10,"Bruce","Andy","Jo B","Arman",1,0
+2022-02-10,"Andy","Rasool","Arman","Jo B",0,1
+2022-02-10,"Bruce","Rasool","Arman","Jo B",2,0
+2022-02-11,"Arman","Rasool","Bruce","Andy",1,1
+2022-02-11,"Bruce","Andy","Arman","Jo B",1,0
+2022-02-11,"Jo B","Andy","Arman","Jo H",1,0
+2022-02-11,"Jo B","Bruce","Andy","Brendon",1,0
+2022-02-11,"Bruce","Rasool","Jo B","Graeme",1,0
+2022-02-11,"Arman","Graeme","Jo H","Reg",1,1
+2022-02-11,"Reg","Rasool","Jo B","Arman",1,0
+2022-02-11,"Bruce","Rasool","Graeme","Reg",1,0
+2022-02-11,"Reg","Arman","Jo H","Bruce",1,0
+2022-02-11,"Bruce","Arman","Reg","Jo H",1,0
+2022-02-11,"Bruce","Reg","Jo H","Arman",2,0
