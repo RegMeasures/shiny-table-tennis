@@ -27,6 +27,7 @@ server = function(input,output,session){
   observe({updateSelectInput(session, "D_Player2", choices = as.list(c("",Players())))})
   observe({updateSelectInput(session, "D_Player3", choices = as.list(c("",Players())))})
   observe({updateSelectInput(session, "D_Player4", choices = as.list(c("",Players())))})
+  observe({updateSelectInput(session, "Details_Player", choices = as.list(c("",Players())))})
   
   # Derive some further useful parameters using reactive functions
   # SinglesScores <- calculateSinglesScores(SinglesData, Players)
@@ -53,9 +54,9 @@ server = function(input,output,session){
   output$SinglesScorePlot <- renderPlotly({
     NGames <- nrow(SinglesScores())
     fig <- plot_ly(x = 1:NGames)
-    for (Player in SinglesRankTable()$Person) {
+    for (Player in SinglesRankTable()$Player) {
       # only display lines of ranked players
-      if (!is.na(SinglesRankTable()[SinglesRankTable()$Person==Player, "Position"])) {
+      if (!is.na(SinglesRankTable()[SinglesRankTable()$Player==Player, "Position"])) {
         Visibility = TRUE
       } else {
         Visibility = "legendonly"
@@ -89,9 +90,9 @@ server = function(input,output,session){
   output$DoublesScorePlot <- renderPlotly({
     NGames <- nrow(DoublesScores())
     fig <- plot_ly(x = 1:NGames)
-    for (Player in DoublesRankTable()$Person) {
+    for (Player in DoublesRankTable()$Player) {
       # only display lines of ranked players
-      if (!is.na(DoublesRankTable()[DoublesRankTable()$Person==Player, "Position"])) {
+      if (!is.na(DoublesRankTable()[DoublesRankTable()$Player==Player, "Position"])) {
         Visibility = TRUE
       } else {
         Visibility = "legendonly"
@@ -203,8 +204,8 @@ server = function(input,output,session){
     paste("The predicted chance of team 1 winning is ", round(D_ProbOf1Winning()*100), "%")
   })
   
-  observeEvent(input$EnterDoublesGame, {
-    # NEED TO ADD SOME VALIDATION AND HANDLE NEW PLAYERS
+  observeEvent(input$RecordDoublesMatchButton, {
+    # NEED TO ADD SOME VALIDATION
     NewDoublesGame <- list(Date = Sys.Date(),
                     Player_1 = input$D_Player1,
                     Player_2 = input$D_Player2,
@@ -228,5 +229,54 @@ server = function(input,output,session){
                                      columns = 1, 
                                      method =  "toLocaleDateString"
                                    )
+  )
+  
+  
+  # Return a pop-up dialog to enter the name of a new player. If 'failed' is
+  # TRUE, then display a message that the previous value was invalid.
+  playerModal <- function(failed = FALSE) {
+    modalDialog(
+      textInput("newPlayerName", "New player name"),
+      if (failed) {
+        div(tags$b("Enter a valid (unique) player name", style = "color: red;"))
+      },
+      footer = tagList(
+        modalButton("Cancel"),
+        actionButton("AddPlayerButton", "OK")
+      )
+    )
+  }
+  
+  # Click the add player button
+  observeEvent(input$NewPlayerButton, {
+    showModal(playerModal())
+  })
+  
+  observeEvent(input$AddPlayerButton, {
+    # Validate the player name
+    if (nchar(input$newPlayerName) < 2 | input$newPlayerName %in% Players()) {
+      # name not valid
+        showModal(playerModal(failed = TRUE))
+    } else {
+      # valid name - add player
+      cat(file=stderr(), "Adding new player: ", input$newPlayerName, "\n")
+      Players(sort(unique(append(Players(), input$newPlayerName))))
+      write(Players() , PlayersFName)
+      removeModal()
+    }
+  })
+  
+  # Render the player details table
+  PlayerDetailsTable <- reactive({
+    SinglesRow <- match(input$Details_Player, SinglesRankTable()$Player)
+    DoublesRow <- match(input$Details_Player, DoublesRankTable()$Player)
+    print(SinglesRow)
+    out <- rbind(SinglesRankTable()[SinglesRow,-1], 
+                 DoublesRankTable()[DoublesRow,-1])
+    rownames(out) <- c("Singles", "Doubles")
+    return(out)
+  })
+  output$PlayerStatsTable <- renderDT(datatable(PlayerDetailsTable(), rownames=TRUE) %>%
+                                      formatRound(2, digits=0)
   )
 } 
